@@ -94,7 +94,7 @@ public class _7_SolidTest {
     @Test
     public void liskovSubstitutionBadSmellAndSolution() {
 
-        class Rectangle {
+        class Triangle {
 
             String draw() {
                 return "∆";
@@ -102,16 +102,16 @@ public class _7_SolidTest {
 
         }
 
-        class TransparentRectangle extends Rectangle {
+        class TransparentTriangle extends Triangle {
 
             @Override
             String draw() {
-                throw new UnsupportedOperationException("transparent rectangle shouldn't be drawn!"); //here contract is broken
+                throw new UnsupportedOperationException("transparent triangle shouldn't be drawn!"); //here contract is broken
             }
         }
 
-        List<Rectangle> list = List.of(new Rectangle(), new TransparentRectangle());
-        list.forEach(Rectangle::draw);
+        List<Triangle> list = List.of(new Triangle(), new TransparentTriangle());
+        list.forEach(Triangle::draw);
 
     }
 

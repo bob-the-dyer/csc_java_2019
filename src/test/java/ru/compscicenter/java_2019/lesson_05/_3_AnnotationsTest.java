@@ -76,11 +76,14 @@ public class _3_AnnotationsTest {
         Class<?> clazz = Class.forName("ru.compscicenter.java_2019.lesson_05._3_AnnotationsTest");
         Object obj = clazz.getDeclaredConstructor().newInstance();
         Method[] methods = clazz.getMethods();
+        int methodsInvocationsCount = 0;
         for (Method m : methods) {
             MethodLevelRuntimeAnnotation annotation = m.getAnnotation(MethodLevelRuntimeAnnotation.class);
             if (annotation != null && annotation.shouldRun()) {
                 m.invoke(obj);
+                methodsInvocationsCount++;
             }
         }
+        assertEquals(__, methodsInvocationsCount);
     }
 }

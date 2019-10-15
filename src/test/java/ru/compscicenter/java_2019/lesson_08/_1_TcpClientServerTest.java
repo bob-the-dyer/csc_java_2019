@@ -21,13 +21,14 @@ public class _1_TcpClientServerTest {
 
     @Test
     public void testsClientServerOverTcp() throws InterruptedException {
+        StringBuilder sb = new StringBuilder();
         Thread server = new Thread(() -> {
             try (ServerSocket serverSocket = new ServerSocket(9999);) {
                 while (true) {
                     Socket accept = serverSocket.accept();
                     InputStream inputStream = accept.getInputStream();
                     byte[] message = inputStream.readAllBytes();
-                    assertEquals(__, new String(message, StandardCharsets.UTF_8));
+                    sb.append(new String(message, StandardCharsets.UTF_8));
                 }
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -36,10 +37,11 @@ public class _1_TcpClientServerTest {
         server.start();
 
         Thread client = new Thread(() -> {
-            while (true) {
+            String message = "message from client";
+            for (int i = 0; i < message.length(); i++) {
                 try (Socket clientSocket = new Socket("localhost", 9999)) {
                     OutputStream outputStream = clientSocket.getOutputStream();
-                    outputStream.write("message from client".getBytes(StandardCharsets.UTF_8));
+                    outputStream.write(message.substring(i, i + 1).getBytes(StandardCharsets.UTF_8));
                     outputStream.flush();
                 } catch (IOException e) {
                     fail(e.getMessage());
@@ -49,7 +51,9 @@ public class _1_TcpClientServerTest {
 
         client.start();
 
-        Thread.sleep(10000);
+        Thread.sleep(2000);
+
+        assertEquals(__, sb.toString());
 
     }
 

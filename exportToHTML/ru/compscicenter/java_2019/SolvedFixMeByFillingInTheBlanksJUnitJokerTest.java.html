@@ -1,0 +1,175 @@
+<html>
+<head>
+<title>SolvedFixMeByFillingInTheBlanksJUnitJokerTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #000080; font-weight: bold;}
+.s1 { color: #000000;}
+.s2 { color: #0000ff;}
+.s3 { color: #008000; font-weight: bold;}
+.s4 { color: #808080; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+SolvedFixMeByFillingInTheBlanksJUnitJokerTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span>ru.compscicenter.java_2019;
+
+
+<span class="s0">import </span>org.junit.Test;
+
+<span class="s0">import </span>java.util.Arrays;
+<span class="s0">import </span>java.util.Comparator;
+
+<span class="s0">import static </span>org.junit.Assert.assertEquals;
+<span class="s0">import static </span>ru.compscicenter.java_2019.Util.*;
+
+<span class="s0">public class </span>SolvedFixMeByFillingInTheBlanksJUnitJokerTest {
+
+    @Test
+    <span class="s0">public void </span>_1_whoIsTheOutsider() {
+
+        <span class="s0">class </span>RaceHorse {
+
+            <span class="s0">private final int </span>speed;
+            <span class="s0">private final int </span>age;
+            <span class="s0">private final </span>String name;
+
+            <span class="s0">public </span>RaceHorse(<span class="s0">int </span>speed, <span class="s0">int </span>age, String name) {
+                <span class="s0">this</span>.speed = speed;
+                <span class="s0">this</span>.age = age;
+                <span class="s0">this</span>.name = name;
+            }
+
+        }
+
+        RaceHorse lindy = <span class="s0">new </span>RaceHorse(<span class="s2">5</span>, <span class="s2">3</span>, <span class="s3">&quot;lindy&quot;</span>);
+
+        RaceHorse lightning = <span class="s0">new </span>RaceHorse(<span class="s2">4</span>, <span class="s2">3</span>, <span class="s3">&quot;lightning&quot;</span>);
+
+        RaceHorse slowy = <span class="s0">new </span>RaceHorse(<span class="s2">6</span>, <span class="s2">5</span>, <span class="s3">&quot;slowy&quot;</span>);
+
+        RaceHorse[] horses = {lindy, slowy, lightning};
+
+        Arrays.sort(horses, Comparator.comparingInt(o -&gt; o.speed / o.age));
+
+        assertEquals(<span class="s3">&quot;lindy&quot;</span>, horses[<span class="s2">0</span>].name);
+
+    }
+
+    @Test
+    <span class="s0">public void </span>_2_howAboutALittleBitOfLeftBitShifting() {
+
+        <span class="s0">int </span>leftShift = <span class="s2">0x80000000</span>;
+
+        leftShift = leftShift &lt;&lt; <span class="s2">1</span>;
+
+        assertEquals(<span class="s2">0</span>, leftShift);
+
+    }
+
+
+    @Test
+    <span class="s0">public void </span>_3_whatStringIsConstructed() {
+
+        <span class="s0">class </span>A {
+
+            String someString = <span class="s3">&quot;pi&quot;</span>;
+
+            A() {
+                someString += <span class="s3">&quot;pu&quot;</span>;
+            }
+
+        }
+
+        <span class="s0">class </span>B <span class="s0">extends </span>A {
+
+            <span class="s0">private </span>B() {
+
+                someString += <span class="s3">&quot;pa&quot;</span>;
+
+            }
+
+        }
+
+        assertEquals(<span class="s3">&quot;pipupa&quot;</span>, <span class="s0">new </span>B().someString);
+    }
+
+    <span class="s0">interface </span>Human {
+
+        <span class="s0">default </span>String sound() {
+            <span class="s0">return </span><span class="s3">&quot;Hello-oo!&quot;</span>;
+        }
+
+    }
+
+    <span class="s0">interface </span>Bull {
+
+        <span class="s0">default </span>String sound() {
+            <span class="s0">return </span><span class="s3">&quot;Moo-oo!&quot;</span>;
+        }
+
+    }
+
+    <span class="s0">class </span>Minotaur <span class="s0">implements </span>Human, Bull {
+
+        @Override
+        <span class="s0">public </span>String sound() {
+            <span class="s4">//TODO Minotaur has a head of bull. How one can call the right method?</span>
+            <span class="s0">return </span>Bull.<span class="s0">super</span>.sound().toLowerCase();
+        }
+    }
+
+    @Test
+    <span class="s0">public void </span>_4_howDiamondProblemIsSolvedInJava() {
+        Minotaur minotaur = <span class="s0">new </span>Minotaur();
+        assertEquals(<span class="s3">&quot;moo-oo!&quot;</span>, minotaur.sound());
+    }
+
+
+    @Test
+    <span class="s0">public void </span>_5_methodPreferences() {
+
+        <span class="s0">class </span>WiseMan {
+
+            String whoAmI(<span class="s0">int </span>i) {
+                <span class="s0">return </span><span class="s3">&quot;int&quot;</span>;
+            }
+
+            String whoAmI(Integer i) {
+                <span class="s0">return </span><span class="s3">&quot;Integer&quot;</span>;
+            }
+
+            String whoAmI(Object i) {
+                <span class="s0">return </span><span class="s3">&quot;Object&quot;</span>;
+            }
+
+        }
+
+        WiseMan w = <span class="s0">new </span>WiseMan();
+
+        assertEquals(<span class="s3">&quot;int&quot;</span>, w.whoAmI(<span class="s2">1</span>));
+
+        assertEquals(<span class="s3">&quot;Integer&quot;</span>, w.whoAmI(Integer.valueOf(<span class="s2">1</span>)));
+
+        <span class="s0">long </span>l = <span class="s2">1</span>;
+        assertEquals(<span class="s3">&quot;Object&quot;</span>, w.whoAmI(l));
+
+        Long L = <span class="s2">1L</span>;
+        assertEquals(<span class="s3">&quot;Object&quot;</span>, w.whoAmI(L));
+
+        <span class="s0">byte </span>b = <span class="s2">1</span>;
+        assertEquals(<span class="s3">&quot;int&quot;</span>, w.whoAmI(b));
+
+        Double D = <span class="s2">1D</span>;
+        assertEquals(<span class="s3">&quot;Object&quot;</span>, w.whoAmI(D));
+
+    }
+
+}
+</pre>
+</body>
+</html>

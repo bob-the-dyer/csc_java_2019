@@ -6,10 +6,9 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
@@ -17,21 +16,21 @@ import static org.junit.Assert.fail;
 import static ru.compscicenter.java_2019.Util.__;
 
 @FixMethodOrder(MethodSorters.JVM)
-public class _1_TcpClientServerTest {
+public class _2_UdpClientServerTest {
 
     @Test
-    public void testsClientServerOverTcp() throws InterruptedException {
+    public void testsClientServerOverUdp() throws InterruptedException {
 
         StringBuilder sb = new StringBuilder();
 
         Thread server = new Thread(() -> {
-            try (ServerSocket serverSocket = new ServerSocket(9999)) {
+            try (DatagramSocket datagramSocket = new DatagramSocket(9999);) {
                 while (true) {
-                    Socket accept = serverSocket.accept();
-                    InputStream inputStream = accept.getInputStream();
-                    byte[] message = inputStream.readAllBytes();
-                    sb.append(new String(message, StandardCharsets.UTF_8));
-                    inputStream.close(); //Closing the returned InputStream will close the associated socket.
+                    byte[] buffer = new byte[65508];
+                    DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                    datagramSocket.receive(packet);
+                    String subMessage = new String(packet.getData(), packet.getOffset(), packet.getLength(), StandardCharsets.UTF_8);
+                    sb.append(subMessage);
                 }
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -43,11 +42,11 @@ public class _1_TcpClientServerTest {
         Thread client = new Thread(() -> {
             String message = "message from client";
             for (int i = 0; i < message.length(); i++) {
-                try (Socket clientSocket = new Socket("localhost", 9999)) {
-                    OutputStream outputStream = clientSocket.getOutputStream();
-                    outputStream.write(message.substring(i, i + 1).getBytes(StandardCharsets.UTF_8));
-                    outputStream.flush();
-                    outputStream.close(); //Closing the returned OutputStream will close the associated socket
+                try (DatagramSocket datagramSocket = new DatagramSocket()) {
+                    byte[] buffer = message.substring(i, i + 1).getBytes();
+                    InetAddress receiverAddress = InetAddress.getLocalHost();
+                    DatagramPacket packet = new DatagramPacket(buffer, buffer.length, receiverAddress, 9999);
+                    datagramSocket.send(packet);
                 } catch (IOException e) {
                     fail(e.getMessage());
                 }

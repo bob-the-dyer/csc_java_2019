@@ -53,7 +53,7 @@ public class _5_FilesTest {
         Files.createDirectory(Path.of(emptyDirName));
         assertEquals(__, Files.exists(Path.of(emptyDirName)));
 
-        Path tempFile = Files.createTempFile("prefix", "suffix");
+        Path tempFile = Files.createTempFile("csc", "2019");
         assertEquals(__, tempFile);
     }
 

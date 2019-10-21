@@ -30,7 +30,7 @@ public class _4_JettyClientServerTest {
 
     private Server server;
 
-    static public class SimpleServlet extends HttpServlet {
+    static public class MirrorServlet extends HttpServlet {
 
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -53,7 +53,7 @@ public class _4_JettyClientServerTest {
         ServletHandler servletHandler = new ServletHandler();
         server.setHandler(servletHandler);
 
-        servletHandler.addServletWithMapping(SimpleServlet.class, "/mirror");
+        servletHandler.addServletWithMapping(MirrorServlet.class, "/mirror");
         server.start();
     }
 

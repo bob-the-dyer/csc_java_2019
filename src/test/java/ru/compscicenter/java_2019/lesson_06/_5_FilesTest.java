@@ -7,7 +7,7 @@ import org.junit.runners.MethodSorters;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
@@ -87,10 +87,13 @@ public class _5_FilesTest {
 
         WatchService watcher = userDir.getFileSystem().newWatchService();
         userDir.register(watcher, ENTRY_CREATE, ENTRY_DELETE);
-        WatchKey key = watcher.poll(2, TimeUnit.MINUTES);
+        WatchKey key = watcher.take();
         // TODO create new file
-        assertEquals(__, key.pollEvents().size());
-        assertEquals(__, key.pollEvents().get(0).context());
+        List<WatchEvent<?>> watchEvents = key.pollEvents();
+        assertEquals(__, watchEvents.size());
+        assertEquals(__, watchEvents.get(0).context().toString());
+        assertEquals(__, watchEvents.get(0).kind().toString());
+        assertEquals(__, watchEvents.get(0).count());
     }
 
 }

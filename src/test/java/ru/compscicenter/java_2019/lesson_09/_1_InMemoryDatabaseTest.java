@@ -152,6 +152,7 @@ public class _1_InMemoryDatabaseTest {
         try (Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:myDb", "sa", "sa")) {
 
             DatabaseMetaData metaData = connection.getMetaData();
+
             ResultSet resultSet1 = metaData.getSchemas();
 
             StringBuilder schemas = new StringBuilder();
@@ -172,6 +173,7 @@ public class _1_InMemoryDatabaseTest {
             StringBuilder tables = new StringBuilder();
 
             ResultSetMetaData resultSetMetaData = resultSet2.getMetaData();
+
             int columnCount = resultSetMetaData.getColumnCount();
 
             while (resultSet2.next()) {
@@ -194,9 +196,93 @@ public class _1_InMemoryDatabaseTest {
     }
 
     @Test
-    public void manualTransactionManagement() {
-        //TODO
+    public void manualTransactionCommit() {
+        initTable();
+
+        try (Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:myDb", "sa", "sa")) {
+
+            String updatePositionSql = "UPDATE employees SET position=? WHERE emp_id=?";
+            PreparedStatement pstmt1 = connection.prepareStatement(updatePositionSql);
+            pstmt1.setString(1, "lead developer");
+            pstmt1.setInt(2, 1);
+
+            String updateSalarySql = "UPDATE employees SET salary=? WHERE emp_id=?";
+            PreparedStatement pstmt2 = connection.prepareStatement(updateSalarySql);
+            pstmt2.setDouble(1, 3000D);
+            pstmt2.setInt(2, 1);
+
+            boolean autoCommit = connection.getAutoCommit();
+            try {
+                connection.setAutoCommit(false);
+                pstmt1.executeUpdate();
+                pstmt2.executeUpdate();
+                connection.commit();
+            } catch (SQLException exc) {
+                connection.rollback();
+                throw exc;
+            } finally {
+                connection.setAutoCommit(autoCommit);
+            }
+
+            PreparedStatement pstmt3 = connection.prepareStatement("SELECT position FROM employees WHERE salary = ?");
+            pstmt3.setDouble(1, 3000D);
+
+            ResultSet resultSet = pstmt3.executeQuery();
+            StringBuilder positions = new StringBuilder();
+            while (resultSet.next()) {
+                positions.append(resultSet.getString(1));
+            }
+
+            assertEquals(__, positions.toString());
+
+        } catch (SQLException e) {
+            fail(e.getMessage());
+        }
     }
 
+    @Test
+    public void manualTransactionRollback() {
+        initTable();
+
+        try (Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:myDb", "sa", "sa")) {
+
+            String updatePositionSql = "UPDATE employees SET position=? WHERE emp_id=?";
+            PreparedStatement pstmt1 = connection.prepareStatement(updatePositionSql);
+            pstmt1.setString(1, "lead developer");
+            pstmt1.setInt(2, 1);
+
+            String updateSalarySql = "UPDATE employees SET salary=? WHERE emp_id=?";
+            PreparedStatement pstmt2 = connection.prepareStatement(updateSalarySql);
+            pstmt2.setDouble(1, 3000D);
+            pstmt2.setInt(2, 1);
+
+            boolean autoCommit = connection.getAutoCommit();
+            try {
+                connection.setAutoCommit(false);
+                pstmt1.executeUpdate();
+                pstmt2.executeUpdate();
+                connection.rollback();
+            } catch (SQLException exc) {
+                connection.rollback();
+                throw exc;
+            } finally {
+                connection.setAutoCommit(autoCommit);
+            }
+
+            PreparedStatement pstmt3 = connection.prepareStatement("SELECT position FROM employees WHERE salary = ?");
+            pstmt3.setDouble(1, 3000D);
+
+            ResultSet resultSet = pstmt3.executeQuery();
+            StringBuilder positions = new StringBuilder();
+            while (resultSet.next()) {
+                positions.append(resultSet.getString(1));
+            }
+
+            assertEquals(__, positions.toString());
+
+        } catch (SQLException e) {
+            fail(e.getMessage());
+        }
+    }
 
 }

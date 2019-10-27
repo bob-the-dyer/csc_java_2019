@@ -67,6 +67,7 @@ public class _3_SerializationJsonTest {
         try (Reader reader = new FileReader("car.json")) {
             Car car = objectMapper.readValue(reader, Car.class);
             assertEquals(__, car.getEngine().getType());
+            //What happens if you change car.json structurally? Names of elements?
         } catch (IOException e) {
             fail(e.getMessage());
         }

@@ -172,7 +172,7 @@ public class _1_SerializationBasicsTest {
             name = s;
         }
 
-        public Plane() { //TODO what happens if we Plane do not have default constructor?
+        public Plane() { //TODO what happens if the Plane doesn't have default constructor?
             name = "noname";
         }
 

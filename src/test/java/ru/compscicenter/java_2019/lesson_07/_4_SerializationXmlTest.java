@@ -19,7 +19,7 @@ public class _4_SerializationXmlTest {
 
         private String type;
 
-        public Engine() { //default must have for jackson to work
+        public Engine() { //default must have for xstream to work
 
         }
 

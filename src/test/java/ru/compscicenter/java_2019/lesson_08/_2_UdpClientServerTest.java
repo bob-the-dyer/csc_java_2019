@@ -24,7 +24,7 @@ public class _2_UdpClientServerTest {
         StringBuilder sb = new StringBuilder();
 
         Thread server = new Thread(() -> {
-            try (DatagramSocket datagramSocket = new DatagramSocket(9999);) {
+            try (DatagramSocket datagramSocket = new DatagramSocket(9999)) {
                 while (true) {
                     byte[] buffer = new byte[65508];
                     DatagramPacket packet = new DatagramPacket(buffer, buffer.length);

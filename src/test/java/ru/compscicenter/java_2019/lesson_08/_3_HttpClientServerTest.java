@@ -31,9 +31,9 @@ public class _3_HttpClientServerTest {
                 .uri(URI.create("http://yandex.ru"))
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());//TODO debug
 
-        assertEquals(__, response.statusCode());
+        assertEquals(__, response.statusCode());//TODO debug
         assertEquals(__, response.version());
         assertEquals(__, response.headers().map().size());
         assertEquals(__, response.body().contains("<html"));

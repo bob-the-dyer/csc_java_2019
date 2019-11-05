@@ -33,7 +33,7 @@ public class _4_JettyClientServerTest {
     static public class MirrorServlet extends HttpServlet {
 
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            response.setStatus(HttpServletResponse.SC_OK);
+            response.setStatus(HttpServletResponse.SC_OK);//TODO debug
             response.setContentType("text/html");
             String mirror = new String(request.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
             response.getWriter().print(mirror);
@@ -77,9 +77,9 @@ public class _4_JettyClientServerTest {
                 .method("GET", HttpRequest.BodyPublishers.ofString("what's a difference a day made?"))
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());//TODO debug
 
-        assertEquals(__, response.statusCode());
+        assertEquals(__, response.statusCode());//TODO debug
         assertEquals(__, response.body());
 
     }

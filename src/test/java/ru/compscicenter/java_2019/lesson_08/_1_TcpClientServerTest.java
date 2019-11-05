@@ -28,7 +28,7 @@ public class _1_TcpClientServerTest {
             try (ServerSocket serverSocket = new ServerSocket(9999)) {
                 while (true) {
                     Socket accept = serverSocket.accept();
-                    InputStream inputStream = accept.getInputStream();
+                    InputStream inputStream = accept.getInputStream(); //TODO debug
                     byte[] message = inputStream.readAllBytes();
                     sb.append(new String(message, StandardCharsets.UTF_8));
                     inputStream.close(); //Closing the returned InputStream will close the associated socket.
@@ -56,7 +56,7 @@ public class _1_TcpClientServerTest {
 
         client.start();
 
-        Thread.sleep(2000);
+        Thread.sleep(2000);//TODO debug
 
         assertEquals(__, sb.toString());
 

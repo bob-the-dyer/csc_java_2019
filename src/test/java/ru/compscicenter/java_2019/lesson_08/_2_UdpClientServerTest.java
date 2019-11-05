@@ -29,7 +29,7 @@ public class _2_UdpClientServerTest {
                     byte[] buffer = new byte[65508];
                     DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                     datagramSocket.receive(packet);
-                    String subMessage = new String(packet.getData(), packet.getOffset(), packet.getLength(), StandardCharsets.UTF_8);
+                    String subMessage = new String(packet.getData(), packet.getOffset(), packet.getLength(), StandardCharsets.UTF_8);//TODO debug
                     sb.append(subMessage);
                 }
             } catch (IOException e) {
@@ -55,7 +55,7 @@ public class _2_UdpClientServerTest {
 
         client.start();
 
-        Thread.sleep(2000);
+        Thread.sleep(2000);//TODO debug
 
         assertEquals(__, sb.toString());
 

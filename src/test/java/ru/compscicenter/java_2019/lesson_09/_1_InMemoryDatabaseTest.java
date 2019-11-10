@@ -1,6 +1,7 @@
 package ru.compscicenter.java_2019.lesson_09;
 
 
+import org.hsqldb.util.DatabaseManagerSwing;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -146,7 +147,7 @@ public class _1_InMemoryDatabaseTest {
     }
 
     @Test
-    public void metadataFromDatabase() {
+    public void metadataFromDatabase() throws InterruptedException {
         initTable();
 
         try (Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:myDb", "sa", "sa")) {
@@ -193,10 +194,20 @@ public class _1_InMemoryDatabaseTest {
         } catch (SQLException e) {
             fail(e.getMessage());
         }
+
+        openDbManagerAndWaitFor1min();
+
+        return;
+    }
+
+    private void openDbManagerAndWaitFor1min() throws InterruptedException {
+        DatabaseManagerSwing.main(
+                new String[]{"--url", "jdbc:hsqldb:mem:myDb", "--user", "sa", "--password", "sa"});
+        Thread.sleep(1000 * 60);
     }
 
     @Test
-    public void manualTransactionCommit() {
+    public void manualTransactionCommit() throws InterruptedException {
         initTable();
 
         try (Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:myDb", "sa", "sa")) {
@@ -238,10 +249,12 @@ public class _1_InMemoryDatabaseTest {
         } catch (SQLException e) {
             fail(e.getMessage());
         }
+
+        openDbManagerAndWaitFor1min();
     }
 
     @Test
-    public void manualTransactionRollback() {
+    public void manualTransactionRollback() throws InterruptedException {
         initTable();
 
         try (Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:myDb", "sa", "sa")) {
@@ -283,6 +296,8 @@ public class _1_InMemoryDatabaseTest {
         } catch (SQLException e) {
             fail(e.getMessage());
         }
+
+        openDbManagerAndWaitFor1min();
     }
 
 }

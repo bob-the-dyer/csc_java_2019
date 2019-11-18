@@ -7,6 +7,7 @@ import org.junit.runners.MethodSorters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertEquals;
@@ -41,7 +42,7 @@ public class _1_LowLevelSynchronizationTest {
 
     class SleepingBeauty implements Runnable {
 
-        private volatile String message = null;
+        private String message = null;
 
         public void setMessage(String message) {
             this.message = message;
@@ -49,13 +50,14 @@ public class _1_LowLevelSynchronizationTest {
 
         @Override
         public void run() {
-            while (message == null) ;
+            while (message == null) ;  //TODO JMM - no guaranties on read
             System.out.println("oh, my prince!");
         }
 
     }
 
     @Test
+    //TODO draw caches
     //TODO try to fix with volatile
     public void testsVolatile() throws InterruptedException {
 
@@ -67,16 +69,22 @@ public class _1_LowLevelSynchronizationTest {
 
         Thread.sleep(1000);
 
+        System.out.println("before waking up");
+
         sleepingBeauty.setMessage("wake up!");
 
+        System.out.println("before join");
+
         sb.join();
+
+        System.out.println("after join");
     }
 
     static int x = 0, y = 0, a = 0, b = 0;
 
     @Test
     //TODO try volatile and ask why it's not working
-    public void testsSleepingBeauty() throws InterruptedException {
+    public void testsReordering() throws InterruptedException {
 
         Thread one = new Thread(() -> {
             a = 1;
@@ -102,9 +110,11 @@ public class _1_LowLevelSynchronizationTest {
 
 
     @Test
+    //TODO draw deadlock
     public void testDeadlock() throws InterruptedException {
         final Integer i1 = 5;
         final Integer i2 = 10;
+        AtomicInteger atomicInteger = new AtomicInteger(0);
 
         Thread thread1 = new Thread(() -> {
             synchronized (i1) {
@@ -115,6 +125,7 @@ public class _1_LowLevelSynchronizationTest {
                 }
                 synchronized (i2) {
                     System.out.println(i1 + i2);
+                    atomicInteger.set(i1 + i2);
                 }
             }
         });
@@ -129,7 +140,8 @@ public class _1_LowLevelSynchronizationTest {
                 }
 
                 synchronized (i1) {
-                    System.out.println(i1 + i2);
+                    System.out.println(i2 + i1);
+                    atomicInteger.set(i2 + i1);
                 }
             }
         });
@@ -138,11 +150,14 @@ public class _1_LowLevelSynchronizationTest {
         thread1.join(10000);
         thread2.join(10000);
 
+        assertEquals(__, atomicInteger.get());
+
     }
 
 
     @Test
-    //TODO try to fix with help of synchronized block
+    //TODO draw 2 threads
+    //TODO try to fix with help of synchronized block on list and on dedicated lock
     //TODO try to fix with help of class Collections
     public void testsCollection() throws InterruptedException {
 

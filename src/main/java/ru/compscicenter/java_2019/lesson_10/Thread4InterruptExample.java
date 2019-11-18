@@ -3,7 +3,7 @@ package ru.compscicenter.java_2019.lesson_10;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
-public class Thread4InterruptExample {
+public class Thread4InterruptExample { //TODO draw 2 possibly interruption moments
     public static void main(String[] args) throws InterruptedException {
 
         Thread t1 = new Thread(() -> {
@@ -21,6 +21,7 @@ public class Thread4InterruptExample {
 
                 } catch (InterruptedException e) {
                     System.out.println("interrupted by exception");
+                    //TODO поговорить о том что тут надо делать с эксепшеном или флагом
                     return;
                 }
             }

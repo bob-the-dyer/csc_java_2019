@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 
@@ -43,11 +42,6 @@ public class FixMe3WithSemaphore10UnitTest {
                 } catch (Throwable throwable) {
                     throwables.add(throwable);
                 }
-                try {
-                    barrier.await();
-                } catch (InterruptedException | BrokenBarrierException e) {
-                    e.printStackTrace();
-                }
                 out.println(format("add called %s times", count));
             }
         }
@@ -64,11 +58,6 @@ public class FixMe3WithSemaphore10UnitTest {
                     }
                 } catch (Throwable throwable) {
                     throwables.add(throwable);
-                }
-                try {
-                    barrier.await();
-                } catch (InterruptedException | BrokenBarrierException e) {
-                    e.printStackTrace();
                 }
                 out.println(format("sum called %s times", count));
             }

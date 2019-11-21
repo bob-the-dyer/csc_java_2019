@@ -5,28 +5,22 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 
-//TODO please FIXME with BlockingQueue
+//FIXME with BlockingQueue
 // Вопросы:
 // - Что делает это многопоточное приложение?
 // - Какие есть проблемы в данном многопоточном приложении?
 // - Запустим приложение прямо сейчас!
 // - Фиксим тест сейчас!
-// - *Для какого сценария использования больше всего подходит BlockingQueue?
+// - *Для какого сценария использования больше всего подходит ArrayBlockingQueue?
 public class _9_FixMeWithArrayBlockingQueueCollectionTest {
     @Test
-    public void testBlockingQueueWorksGreat() throws InterruptedException {
-
-        //TODO
+    public void testArrayBlockingQueueWorksGreat() throws InterruptedException {
 
         List<Integer> list = new ArrayList<>();
         CountDownLatch latch = new CountDownLatch(1);
         List<Throwable> throwables = new ArrayList<>();
-
-        BlockingQueue queue = new ArrayBlockingQueue(10);
 
         Thread t1 = new Thread(() -> {
             try {
@@ -60,8 +54,11 @@ public class _9_FixMeWithArrayBlockingQueueCollectionTest {
         t1.join();
         t2.join();
 
+        Assert.assertEquals(0, list.size());
+
         if (!throwables.isEmpty()) {
             Assert.fail(throwables.toString());
         }
+
     }
 }

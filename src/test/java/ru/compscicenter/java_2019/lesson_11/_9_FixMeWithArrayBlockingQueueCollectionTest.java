@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 
 //TODO please FIXME with BlockingQueue
@@ -13,14 +15,18 @@ import java.util.concurrent.CountDownLatch;
 // - Какие есть проблемы в данном многопоточном приложении?
 // - Запустим приложение прямо сейчас!
 // - Фиксим тест сейчас!
-// - *Для какого сценария по нагрузке больше всего подходит BlockingQueue?
-public class FixMe5WithBlockingQueueTest {
+// - *Для какого сценария использования больше всего подходит BlockingQueue?
+public class _9_FixMeWithArrayBlockingQueueCollectionTest {
     @Test
     public void testBlockingQueueWorksGreat() throws InterruptedException {
+
+        //TODO
 
         List<Integer> list = new ArrayList<>();
         CountDownLatch latch = new CountDownLatch(1);
         List<Throwable> throwables = new ArrayList<>();
+
+        BlockingQueue queue = new ArrayBlockingQueue(10);
 
         Thread t1 = new Thread(() -> {
             try {

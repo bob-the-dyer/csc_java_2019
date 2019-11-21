@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.IntStream;
 
@@ -15,7 +16,7 @@ import static java.lang.System.out;
 // - Какую коллекцию будем менять и на какую?
 // - Фиксим тест сейчас!
 // - *Для какого сценария по нагрузке больше всего подходит CopyOnWriteArrayList?
-public class FixMe4WithCopyOnWriteArrayListTest {
+public class _7_FixMeWithCopyOnWriteArrayListCollectionTest {
     @Test
     public void testCopyOnWriteArrayListWorksGreat() throws InterruptedException {
 
@@ -45,9 +46,9 @@ public class FixMe4WithCopyOnWriteArrayListTest {
             public void run() {
                 try {
                     latch.await();
-                    for (int i = 0; i < 1000; i++) {
+                    for (int i = 0; i < 100; i++) {
                         out.println("starting read iteration " + i);
-                        for (String s : list) { //todo replace with list.forEach(out::println);
+                        for (String s : list) { //TODO почему тут не падает?
                             out.println(s);
                         }
                         out.println("finishing read iteration " + i);

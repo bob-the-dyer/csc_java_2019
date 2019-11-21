@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.IntStream;
 
@@ -17,11 +19,9 @@ import static java.lang.System.out;
 // - *Для какого сценария использования больше всего подходит ConcurrentSkipListSet?
 public class _8_FixMeWithConcurrentSkipListSetCollectionTest {
     @Test
-    public void testCopyOnWriteArrayListWorksGreat() throws InterruptedException {
+    public void testConcurrentSkipListSetWorksGreat() throws InterruptedException {
 
-        //TODO
-
-        List<String> list = new ArrayList<>();
+        SortedSet<String> set = new TreeSet<>();
         CountDownLatch latch = new CountDownLatch(1);
         List<Throwable> throwables = new ArrayList<>();
 
@@ -32,12 +32,12 @@ public class _8_FixMeWithConcurrentSkipListSetCollectionTest {
                     latch.await();
                     for (int i = 0; i < 100; i++) {
                         out.println("starting adding email " + i);
-                        IntStream.range(0, 100).forEach(index -> list.add(Math.random() + "@gmail.com"));
+                        IntStream.range(0, 100).forEach(index -> set.add(Math.random() + "@gmail.com"));
                         out.println("finishing adding email " + i);
                         Thread.sleep(0);
                     }
                 } catch (Throwable throwable) {
-                    throwables.add(throwable);
+                    throwables.add(throwable); //TODO при дебаге можно поймать NPE при балансировке дерева
                 }
             }
         }
@@ -49,7 +49,7 @@ public class _8_FixMeWithConcurrentSkipListSetCollectionTest {
                     latch.await();
                     for (int i = 0; i < 100; i++) {
                         out.println("starting read iteration " + i);
-                        for (String s : list) { //TODO почему тут не падает?
+                        for (String s : set) {
                             out.println(s);
                         }
                         out.println("finishing read iteration " + i);
@@ -77,7 +77,7 @@ public class _8_FixMeWithConcurrentSkipListSetCollectionTest {
         t2.join();
         t3.join();
 
-        Assert.assertEquals(100 * 100 * 2, list.size());
+        Assert.assertEquals(100 * 100 * 2, set.size());
 
         if (!throwables.isEmpty()) {
             Assert.fail(throwables.toString());

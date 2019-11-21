@@ -20,8 +20,8 @@ public class FixMe5WithForkJoinUnitTest {
         out.println("start");
 
         long start = System.currentTimeMillis();
-        final List<Integer> list = new ArrayList<>();
-        final List<Throwable> throwables = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        List<Throwable> throwables = new ArrayList<>();
 
         class Populator extends Thread {
             @Override

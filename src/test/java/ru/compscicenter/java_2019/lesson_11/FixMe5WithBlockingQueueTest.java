@@ -19,7 +19,7 @@ public class FixMe5WithBlockingQueueTest {
     public void testBlockingQueueWorksGreat() throws InterruptedException {
 
         List<Integer> list = new ArrayList<>();
-        final CountDownLatch latch = new CountDownLatch(1);
+        CountDownLatch latch = new CountDownLatch(1);
         List<Throwable> throwables = new ArrayList<>();
 
         Thread t1 = new Thread(() -> {
@@ -46,6 +46,8 @@ public class FixMe5WithBlockingQueueTest {
 
         t1.start();
         t2.start();
+
+        Thread.sleep(1000);
 
         latch.countDown();
 

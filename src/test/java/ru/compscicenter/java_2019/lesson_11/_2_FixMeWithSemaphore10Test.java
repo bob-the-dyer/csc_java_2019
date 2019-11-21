@@ -73,6 +73,8 @@ public class _2_FixMeWithSemaphore10Test {
         s1.start();
         s2.start();
 
+        Thread.sleep(1000);
+
         latch.countDown();
 
         p1.join();

@@ -18,8 +18,8 @@ public class FixMe4WithCopyOnWriteArrayListTest {
     @Test
     public void testCopyOnWriteArrayListWorksGreat() throws InterruptedException {
 
-        final List<String> list = new ArrayList<>();
-        final CountDownLatch latch = new CountDownLatch(1);
+        List<String> list = new ArrayList<>();
+        CountDownLatch latch = new CountDownLatch(1);
         List<Throwable> throwables = new ArrayList<>();
 
         Thread t1 = new Thread(() -> {
@@ -51,6 +51,8 @@ public class FixMe4WithCopyOnWriteArrayListTest {
 
         t1.start();
         t2.start();
+
+        Thread.sleep(1000);
 
         latch.countDown();
 

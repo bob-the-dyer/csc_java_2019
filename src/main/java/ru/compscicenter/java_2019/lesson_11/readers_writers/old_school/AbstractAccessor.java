@@ -26,11 +26,12 @@ public abstract class AbstractAccessor extends Thread {
     @Override
     public void run() {
         try {
+            log.info("{} started, waiting", name);
             latch.await();
+            log.info("{} started, ready to go", name);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        log.info("{} started", name);
         for (; ; ) {
             try {
                 Thread.sleep(getDelay()); //emulating random access

@@ -80,6 +80,8 @@ public class _1_FixMeWithReentrantLockTest {
         s1.start();
         s2.start();
 
+        Thread.sleep(1000);
+
         latch.countDown();
 
         p1.join();

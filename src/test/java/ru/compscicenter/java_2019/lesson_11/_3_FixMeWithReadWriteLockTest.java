@@ -82,6 +82,8 @@ public class _3_FixMeWithReadWriteLockTest {
         s1.start();
         s2.start();
 
+        Thread.sleep(1000);
+
         latch.countDown();
 
         p1.join();

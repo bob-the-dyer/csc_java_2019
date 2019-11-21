@@ -13,7 +13,7 @@ public class Main {
 
     private static Logger log = LoggerFactory.getLogger(Main.class.getName());
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         log.info("starting Main");
 
         ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock(true); //try unfair lock as well
@@ -26,7 +26,10 @@ public class Main {
         IntStream.range(0, NUMBER_OF_WRITERS).forEach(i ->
                 new Writer("writer_" + i, rwLock, latch).start()
         );
-        log.info("all threads are ready");
+
+        Thread.sleep(1000);
+
+        log.info("all threads should be ready now but no guaranties!");
 
         latch.countDown();
 

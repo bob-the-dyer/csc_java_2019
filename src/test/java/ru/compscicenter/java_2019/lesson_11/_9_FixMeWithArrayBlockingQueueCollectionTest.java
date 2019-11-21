@@ -18,7 +18,7 @@ public class _9_FixMeWithArrayBlockingQueueCollectionTest {
     @Test
     public void testArrayBlockingQueueWorksGreat() throws InterruptedException {
 
-        List<Integer> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>(); //TODO уменьшить capacity до 1
         CountDownLatch latch = new CountDownLatch(1);
         List<Throwable> throwables = new ArrayList<>();
 

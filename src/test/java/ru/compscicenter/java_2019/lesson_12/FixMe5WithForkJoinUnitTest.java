@@ -1,4 +1,4 @@
-package ru.compscicenter.java_2019.lesson_11;
+package ru.compscicenter.java_2019.lesson_12;
 
 import org.junit.Assert;
 import org.junit.Test;

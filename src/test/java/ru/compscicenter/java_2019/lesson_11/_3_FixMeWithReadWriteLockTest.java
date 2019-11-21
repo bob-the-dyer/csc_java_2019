@@ -7,25 +7,24 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 
 import static java.lang.String.format;
 import static java.lang.System.out;
 
-//FIXME
-// 1) починить с помощью Semaphore(10), какое время выполнения?
-// 2) *В чем отличия mutex и semaphore?
-// 3) Cмотрим описание методов, например availablePermits()
-// 4) Переделываем решение на неблокирующее с tryAcquire(), смотрим время выполнения
-public class _2_FixMe3WithSemaphore10Test {
+//FIXME with ReadWriteReentrantLock, проверим время выполнения программы
+public class _3_FixMeWithReadWriteLockTest {
     @Test
-    public void testSemaphoreWorksGreat() throws InterruptedException {
+    public void testReadWriteReentrantLockWorksGreat() throws InterruptedException {
         out.println("start");
 
         long start = System.currentTimeMillis();
         final List<Integer> list = new ArrayList<>();
         List<Throwable> throwables = new ArrayList<>();
         CountDownLatch latch = new CountDownLatch(1);
+        CyclicBarrier barrier = new CyclicBarrier(4);
 
         class Populator extends Thread {
             @Override
@@ -41,11 +40,16 @@ public class _2_FixMe3WithSemaphore10Test {
                 } catch (Throwable throwable) {
                     throwables.add(throwable);
                 }
+                try {
+                    barrier.await();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    e.printStackTrace();
+                }
                 out.println(format("add called %s times", count));
             }
         }
 
-        class Summator extends Thread {
+        class Summator extends Thread  {
             @Override
             public void run() {
                 int count = 0;
@@ -57,6 +61,11 @@ public class _2_FixMe3WithSemaphore10Test {
                     }
                 } catch (Throwable throwable) {
                     throwables.add(throwable);
+                }
+                try {
+                    barrier.await();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    e.printStackTrace();
                 }
                 out.println(format("sum called %s times", count));
             }

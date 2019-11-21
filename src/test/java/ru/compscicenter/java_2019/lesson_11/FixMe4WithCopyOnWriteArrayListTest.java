@@ -6,10 +6,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.IntStream;
 
 import static java.lang.System.out;
 
-//TODO please FIXME with CopyOnWriteArrayList
+//FIXME with CopyOnWriteArrayList
 // Вопросы:
 // - Какую коллекцию будем менять и на какую?
 // - Фиксим тест сейчас!
@@ -22,35 +23,49 @@ public class FixMe4WithCopyOnWriteArrayListTest {
         CountDownLatch latch = new CountDownLatch(1);
         List<Throwable> throwables = new ArrayList<>();
 
-        Thread t1 = new Thread(() -> {
-            try {
-                latch.await();
-                for (int i = 0; i < 1000; i++) {
-                    out.println("starting adding email " + i);
-                    list.add(Math.random() + "@gmail.com");
-                    out.println("finishing adding email " + i);
-                }
-            } catch (Throwable throwable) {
-                throwables.add(throwable);
-            }
-        });
-        Thread t2 = new Thread(() -> {
-            try {
-                latch.await();
-                for (int i = 0; i < 1000; i++) {
-                    out.println("starting read iteration " + i);
-                    for (String email : list) {
-                        out.println(email);
+        class Adding implements Runnable {
+            @Override
+            public void run() {
+                try {
+                    latch.await();
+                    for (int i = 0; i < 100; i++) {
+                        out.println("starting adding email " + i);
+                        IntStream.range(0, 100).forEach(index -> list.add(Math.random() + "@gmail.com"));
+                        out.println("finishing adding email " + i);
+                        Thread.sleep(0);
                     }
-                    out.println("finishing read iteration " + i);
+                } catch (Throwable throwable) {
+                    throwables.add(throwable);
                 }
-            } catch (Throwable throwable) {
-                throwables.add(throwable);
             }
-        });
+        }
+
+        class Iterating implements Runnable {
+            @Override
+            public void run() {
+                try {
+                    latch.await();
+                    for (int i = 0; i < 1000; i++) {
+                        out.println("starting read iteration " + i);
+                        for (String s : list) { //todo replace with list.forEach(out::println);
+                            out.println(s);
+                        }
+                        out.println("finishing read iteration " + i);
+                        Thread.sleep(0);
+                    }
+                } catch (Throwable throwable) {
+                    throwables.add(throwable);
+                }
+            }
+        }
+
+        Thread t1 = new Thread(new Adding());
+        Thread t2 = new Thread(new Adding());
+        Thread t3 = new Thread(new Iterating());
 
         t1.start();
         t2.start();
+        t3.start();
 
         Thread.sleep(1000);
 
@@ -58,6 +73,9 @@ public class FixMe4WithCopyOnWriteArrayListTest {
 
         t1.join();
         t2.join();
+        t3.join();
+
+        Assert.assertEquals(100 * 100 * 2, list.size());
 
         if (!throwables.isEmpty()) {
             Assert.fail(throwables.toString());

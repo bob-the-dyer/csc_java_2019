@@ -21,7 +21,7 @@ public class _5_FixMeWithSynchronizedCollectionCollectionTest {
     @Test
     public void testSynchronizedListWorksGreat() throws InterruptedException {
 
-        List<String> list = Collections.synchronizedList(new ArrayList<>());
+        List<String> list = new ArrayList<>();
         CountDownLatch latch = new CountDownLatch(1);
         List<Throwable> throwables = new ArrayList<>();
 

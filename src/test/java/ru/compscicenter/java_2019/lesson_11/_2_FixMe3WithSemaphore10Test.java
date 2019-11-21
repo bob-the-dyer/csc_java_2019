@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
 
 import static java.lang.String.format;
 import static java.lang.System.out;
 
-//TODO 1) FIXME with Semaphore(10), пришлите время выполнения
+//FIXME
+// 1) починить с помощью Semaphore(10), какое время выполнения?
 // 2) *В чем отличия mutex и semaphore?
-// 3) Посмотрите описания методов availablePermits() и reducePermits()
-// 4) Переделайте решение на в неблокирующем стиле с tryAcquire(), пришлите время выполнения
-public class FixMe3WithSemaphore10UnitTest {
+// 3) Cмотрим описание методов, например availablePermits()
+// 4) Переделываем решение на неблокирующее с tryAcquire(), смотрим время выполнения
+public class _2_FixMe3WithSemaphore10Test {
     @Test
     public void testSemaphoreWorksGreat() throws InterruptedException {
         out.println("start");
@@ -26,7 +26,6 @@ public class FixMe3WithSemaphore10UnitTest {
         final List<Integer> list = new ArrayList<>();
         List<Throwable> throwables = new ArrayList<>();
         CountDownLatch latch = new CountDownLatch(1);
-        CyclicBarrier barrier = new CyclicBarrier(4);
 
         class Populator extends Thread {
             @Override

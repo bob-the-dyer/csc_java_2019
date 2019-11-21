@@ -20,6 +20,7 @@ import static java.lang.System.out;
 // 6) Добавим CyclicBarrier для того чтобы последние выводы в консоль из потоков были друг за другом, какие последние строки программы?
 // 7) *Почему CyclicBarrier называется CyclicBarrier?
 // 8) Самостоятельно посмотрите описание Phaser - like CountDownLatch and CyclicBarrier, но более навороченый
+// 9) test fairness
 public class _1_FixMeWithReentrantLockTest {
     @Test
     public void testReentrantLockWorksGreat() throws InterruptedException {

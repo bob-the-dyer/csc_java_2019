@@ -21,7 +21,7 @@ public class ReentrantLockAwaitSignalExample { //TODO see ru.compscicenter.java_
         Thread consumer = new Thread(() -> {
             while (true) {
                 out.println("едок пытается захватить TRAY");
-                TRAY.lock(); // lock может быть в одном месте ...
+                TRAY.lock(); // TODO lock может быть в одном месте ...
                 try {
                     out.println("едок захватывает TRAY");
                     if (hamburger != null) {
@@ -36,7 +36,7 @@ public class ReentrantLockAwaitSignalExample { //TODO see ru.compscicenter.java_
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    TRAY.unlock(); // ... а unlock может быть в совершенно другом!
+                    TRAY.unlock(); // TODO ... а unlock может быть в совершенно другом!
                     out.println("едок отпускает TRAY");
                 }
             }
@@ -53,10 +53,10 @@ public class ReentrantLockAwaitSignalExample { //TODO see ru.compscicenter.java_
                         out.println("пекарь готовит hamburger");
                         hamburger = new Hamburger();
                         out.println("пекарь сообщает что hamburger готов (signal)");
-                        HAMBURGER_EXCHANGE.signal(); // не путать с HAMBURGER_EXCHANGE.notify()!
+                        HAMBURGER_EXCHANGE.signal(); // TODO  не путать с HAMBURGER_EXCHANGE.notify()!
                     }
                     out.println("пекарь собирается ждать пока едок съест hamburger и засыпает");
-                    HAMBURGER_EXCHANGE.await(); // не путать с HAMBURGER_EXCHANGE.wait()!
+                    HAMBURGER_EXCHANGE.await(); // TODO  не путать с HAMBURGER_EXCHANGE.wait()!
                     out.println("пекарь просыпается");
                 } catch (InterruptedException e) {
                     e.printStackTrace();

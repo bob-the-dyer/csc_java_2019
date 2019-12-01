@@ -15,10 +15,9 @@ import static java.lang.System.out;
 // 2) Посмотрите результаты вывода в консоль, нет ли вопросов? Если нужно, внесите правки в код, чтобы вопросы решились;
 // 3) Поменяйте реализацию на Executors.newFixedThreadPool(10), запустите и посмотрите время выполнения
 // 4) Поменяйте реализацию на Executors.newCachedThreadPool и проверьте время выполнения
-// 5) *Посмотрите на на Executors.newScheduledThreadPool(), приведите примеры прикладных задач для чего он может быть полезен?
-// 6) Поменяйте реализацию на new ThreadPoolExecutor() c ограниченной очередью и политиками отказв, например выполняющей задачу в текущем потоке и проверьте время выполнения
-// 7) Поменяйте Runnable на Callable, возвращайте бинарный результат добавления (true/false) во Future<Boolean> и блокируйтесь пока нет результата через Future.get(), пришлите время выполнения
-// 8) А теперь решите без блокировки: проверяйте готово или не готово с помощью Future.isDone() и идите дальше, проверьте время выполнения
+// 5) Поменяйте реализацию на new ThreadPoolExecutor() c ограниченной очередью и всеми политиками отказов, включая собственный случайный и проверьте время выполнения
+// 6) Поменяйте Runnable на Callable, возвращайте бинарный результат добавления (true/false) во Future<Boolean> и блокируйтесь пока нет результата через Future.get(), пришлите время выполнения
+// 7) А теперь решите без блокировки: проверяйте готово или не готово с помощью Future.isDone() и идите дальше, проверьте время выполнения
 public class _1_FixMeWithExecutorServiceUnitTest {
     @Test
     public void testExecutorWorksGreat() throws InterruptedException {
@@ -72,6 +71,8 @@ public class _1_FixMeWithExecutorServiceUnitTest {
         s1.join();
         s2.join();
 
+        // TODO do not forget to wait till executor is finished
+
         out.println(format("execution time = %s millis", (System.currentTimeMillis() - start)));
 
         if (!throwables.isEmpty()) {
@@ -79,7 +80,7 @@ public class _1_FixMeWithExecutorServiceUnitTest {
         }
     }
 
-    private void sum(List<Integer> list) {
+    private Boolean sum(List<Integer> list) {
         Iterator<Integer> iterator = list.iterator();
         BigDecimal sum = new BigDecimal(0);
         while (iterator.hasNext()) {
@@ -87,5 +88,6 @@ public class _1_FixMeWithExecutorServiceUnitTest {
             sum = sum.add(BigDecimal.valueOf(next));
         }
         out.println(sum);
+        return true;
     }
 }

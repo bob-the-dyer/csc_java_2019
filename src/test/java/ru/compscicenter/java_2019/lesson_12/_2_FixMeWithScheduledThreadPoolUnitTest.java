@@ -11,7 +11,7 @@ import java.util.List;
 import static java.lang.String.format;
 import static java.lang.System.out;
 
-//TODO 1) FIXME change loops with periodic Runnable by Executors.newScheduledThreadPool(...)
+//TODO 1) FIXME change loops with periodic Runnable by Executors.newScheduledThreadPool(...) with fixed delay and fixed rate
 public class _2_FixMeWithScheduledThreadPoolUnitTest {
     @Test
     public void testExecutorWorksGreat() throws InterruptedException {

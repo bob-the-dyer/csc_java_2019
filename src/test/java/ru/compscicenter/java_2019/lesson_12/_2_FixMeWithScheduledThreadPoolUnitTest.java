@@ -11,14 +11,8 @@ import java.util.List;
 import static java.lang.String.format;
 import static java.lang.System.out;
 
-//TODO 1) FIXME with Executors.newSingleThreadExecutor(), обратите внимание что у нас один поток и неограниченная очередь, проверьте время выполнения
-// 2) Посмотрите результаты вывода в консоль, нет ли вопросов? Если нужно, внесите правки в код, чтобы вопросы решились;
-// 3) Поменяйте реализацию на Executors.newFixedThreadPool(10), запустите и посмотрите время выполнения
-// 4) Поменяйте реализацию на Executors.newCachedThreadPool и проверьте время выполнения
-// 5) Поменяйте реализацию на new ThreadPoolExecutor() c ограниченной очередью и всеми политиками отказов, включая собственный случайный и проверьте время выполнения
-// 6) Поменяйте Runnable на Callable, возвращайте бинарный результат добавления (true/false) во Future<Boolean> и блокируйтесь пока нет результата через Future.get(), пришлите время выполнения
-// 7) А теперь решите без блокировки: проверяйте готово или не готово с помощью Future.isDone() и идите дальше, проверьте время выполнения
-public class _1_FixMeWithExecutorServiceUnitTest {
+//TODO 1) FIXME change loops with periodic Runnable by Executors.newScheduledThreadPool(...)
+public class _2_FixMeWithScheduledThreadPoolUnitTest {
     @Test
     public void testExecutorWorksGreat() throws InterruptedException {
         out.println("start");

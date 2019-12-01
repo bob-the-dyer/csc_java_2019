@@ -13,8 +13,8 @@ import static java.lang.System.out;
 
 //TODO 1) Посмотрите реализацию Executors.newWorkStealingPool(), обратите внимание на размер параллелизма
 // 2) Устраните ConcurrentModificationException с помощью CopyOnWriteArrayList;
-// 3) Создайте руками ForkJoinPool и с помощью RecursiveTask переделайте подсчет суммы на рекурсивный вариант с порождением подзадач, если размер подсписка больше 16-ти, пришлите время выполнения
-public class FixMe5WithForkJoinUnitTest {
+// 3) Создайте руками ForkJoinPool и с помощью RecursiveTask переделайте подсчет суммы на рекурсивный вариант с порождением подзадач, если размер подсписка больше 16-ти, проверьте время выполнения
+public class _3_FixMeWithForkJoinUnitTest {
     @Test
     public void testForkJoinWorksGreat() throws InterruptedException {
         out.println("start");

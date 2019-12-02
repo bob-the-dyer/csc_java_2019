@@ -11,12 +11,10 @@ import java.util.List;
 import static java.lang.String.format;
 import static java.lang.System.out;
 
-//TODO 1) Посмотрите реализацию Executors.newWorkStealingPool(), обратите внимание на размер параллелизма
-// 2) Устраните ConcurrentModificationException с помощью CopyOnWriteArrayList;
-// 3) Создайте руками ForkJoinPool и с помощью RecursiveTask переделайте подсчет суммы на рекурсивный вариант с порождением подзадач, если размер подсписка больше 16-ти, пришлите время выполнения
-public class FixMe5WithForkJoinUnitTest {
+//TODO 1) FIXME change loops with periodic Runnable by Executors.newScheduledThreadPool(...) with fixed delay and fixed rate
+public class _2_FixMeWithScheduledThreadPoolUnitTest {
     @Test
-    public void testForkJoinWorksGreat() throws InterruptedException {
+    public void testExecutorWorksGreat() throws InterruptedException {
         out.println("start");
 
         long start = System.currentTimeMillis();
@@ -67,6 +65,8 @@ public class FixMe5WithForkJoinUnitTest {
         s1.join();
         s2.join();
 
+        // TODO do not forget to wait till executor is finished
+
         out.println(format("execution time = %s millis", (System.currentTimeMillis() - start)));
 
         if (!throwables.isEmpty()) {
@@ -74,7 +74,7 @@ public class FixMe5WithForkJoinUnitTest {
         }
     }
 
-    private BigDecimal sum(List<Integer> list) {
+    private Boolean sum(List<Integer> list) {
         Iterator<Integer> iterator = list.iterator();
         BigDecimal sum = new BigDecimal(0);
         while (iterator.hasNext()) {
@@ -82,6 +82,6 @@ public class FixMe5WithForkJoinUnitTest {
             sum = sum.add(BigDecimal.valueOf(next));
         }
         out.println(sum);
-        return sum;
+        return true;
     }
 }

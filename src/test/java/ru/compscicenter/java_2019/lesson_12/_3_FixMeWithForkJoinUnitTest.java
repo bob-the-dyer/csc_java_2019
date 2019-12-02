@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.lang.String.format;
 import static java.lang.System.out;
@@ -14,6 +15,7 @@ import static java.lang.System.out;
 //TODO 1) Посмотрите реализацию Executors.newWorkStealingPool(), обратите внимание на размер параллелизма
 // 2) Устраните ConcurrentModificationException с помощью CopyOnWriteArrayList;
 // 3) Создайте руками ForkJoinPool и с помощью RecursiveTask переделайте подсчет суммы на рекурсивный вариант с порождением подзадач, если размер подсписка больше 16-ти, проверьте время выполнения
+// 4) Почему тест по прежнему падает? Иммутабельность спасет мир!
 public class _3_FixMeWithForkJoinUnitTest {
     @Test
     public void testForkJoinWorksGreat() throws InterruptedException {
@@ -42,8 +44,8 @@ public class _3_FixMeWithForkJoinUnitTest {
             public void run() {
                 for (int i = 0; i < 1000; i++) {
                     try {
-                        sum(list);
-                        out.println(format("sum called %s time", i));
+                        BigDecimal sum = sum(list);
+                        out.println(format("sum called %s time, result is %s", i, sum));
                     } catch (Throwable throwable) {
                         throwables.add(throwable);
                     }
@@ -81,7 +83,7 @@ public class _3_FixMeWithForkJoinUnitTest {
             Integer next = iterator.next();
             sum = sum.add(BigDecimal.valueOf(next));
         }
-        out.println(sum);
+//        out.println(sum);
         return sum;
     }
 }

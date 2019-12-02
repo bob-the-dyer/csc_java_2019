@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.lang.String.format;
 import static java.lang.System.out;

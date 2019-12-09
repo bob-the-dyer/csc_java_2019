@@ -68,7 +68,7 @@ public class _3_StreamsTest {
     @Test
     public void join() {
         String join = places.stream()
-                .reduce((accumulated, cityName) -> accumulated + "\", \"" + cityName)
+                .reduce((accumulated, cityName) -> accumulated + "," + cityName)
                 .get();
         assertEquals(__, join);
     }
@@ -83,7 +83,7 @@ public class _3_StreamsTest {
     @Test
     public void stringJoin() {
         String join = places.stream()
-                .collect(Collectors.joining("\", \""));
+                .collect(Collectors.joining("|"));
         assertEquals(__, join);
     }
 
@@ -161,6 +161,57 @@ public class _3_StreamsTest {
                 .findFirst()
                 .orElseGet(() -> "aha!");
         assertEquals(__, found);
+    }
+
+    @Test
+    public void forEach() {
+        String[] arr = new String[]{"a", "b", "c"};
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        List<String> strings = Arrays.asList(arr);
+        strings.parallelStream()
+                .forEach(stringBuilder::append);
+        assertEquals(__, "abc".equals(stringBuilder.toString()));
+    }
+
+    @Test
+    public void matches() {
+        String[] arr = new String[]{"a", "b", "c"};
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        List<String> strings = Arrays.asList(arr);
+
+        boolean anyMatches = strings.stream().anyMatch(element -> element.contains("a"));
+
+        assertEquals(__, anyMatches);
+
+        boolean allMatches = strings.stream().allMatch(element -> element.length() <= 1);
+
+        assertEquals(__, allMatches);
+
+        boolean noneMatches = strings.stream().noneMatch(element -> element.length() > 1);
+
+        assertEquals(__, noneMatches);
+    }
+
+    @Test
+    public void grouping() {
+        Map<String, List<String>> dictionary = places
+                .stream()
+                .collect(Collectors.groupingBy(place -> place.substring(0, 1)));
+        assertEquals(__, dictionary.size());
+        assertEquals(__, dictionary.get("S").stream().collect(Collectors.joining(",")));
+    }
+
+    @Test
+    public void partitioning() {
+        Map<Boolean, List<String>> dictionary = places
+                .stream()
+                .collect(Collectors.partitioningBy(place -> place.length() > 6));
+        assertEquals(__, dictionary.size());
+        assertEquals(__, dictionary.get(Boolean.FALSE).stream().collect(Collectors.joining(",")));
     }
 
 }
